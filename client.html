@@ -3,10 +3,101 @@
       <link href="client.css" type="text/css" rel="stylesheet">
       <script src="client.js" type="text/javascript"></script>
       <script src="serverstub.js" type="text/javascript"></script>
+
+      <script  id = "welcomeview" type=”text/view”>
+        <div class = "around">
+            <div class = "logo">
+            <img src="wimage.png">
+            </div>
+
+            <div class="login">
+            <form onsubmit="return checkpassword()">
+              <div class="loguname">
+                <label for="uname">Username</label>
+                <input type="text" placeholder = "Enter username" name="uname" required>
+              </div>
+              <div class="formlabel">
+                <label for="pwd">Password</label>
+                <input type="password" id="loginpass" placeholder = "Enter Password" name="pwd" required>
+
+              </div>
+              <div class="logbutton" id = "logbutton">
+                <button type="submit">Login</button>
+
+              </div>
+
+              </form>
+            </div>
+
+            <div class="signup">
+              <h1> Sign up here </h1>
+              <form id="signupform" onsubmit="return checksamepass()">
+              <div class="formlabel">
+                <label for="uname">Name</label>
+                <input type="text" placeholder = "" name="uname" required>
+              </div>
+
+                <label for="fname">Family name</label>
+                <input type="text" placeholder = "" name="fname" required>
+
+                <div class="gender">
+                  <label for="gender">Gender</label>
+                  <select class="" name="">
+                    <option value="Female"> Female </option>
+                    <option value="Male"> Male </option>
+                    <option value="NA"> NA </option>
+                  </select>
+                </div>
+                <div class="formlabel"
+                <label for="City">City</label>
+                <input type="text" placeholder = "" name="City" required>
+                </div>
+                <div class="formlabel"
+                <label for="Country">Country</label>
+                <input type="text" placeholder = "" name="Country" required>
+                </div>
+                <div class ="formlabel"
+                <label for="Email">Email</label>
+                <input type="email" placeholder = "" name="Email" required>
+                </div>
+
+                <div class="formlabel">
+                <label for="pwd">Password</label>
+                <input type="password" id ="pwd1" placeholder = "" name="pwd" required>
+                </div>
+
+                <div class="formlabel">
+                <label for="pwd2">Repeat PSW</label>
+                <input type="password" id = "pwd2" placeholder = "" name="pwd2" required>
+                </div>
+
+                <div class="signbutton">
+                  <button type="submit">Signup</button>
+                </div>
+                </form>
+                </div>
+
+
+            </div>
+          </div>
+
+
+          </script>
+          <script id = "profileview" type="text/view">
+             <div class = "around">
+           <h> hej detta är profileview </h>
+
+           </body>
+         </script>
+
+
   </head>
 
 
-  <body>
+  <body class ="all">
+    <div id = "containerdiv">
+
+    </div>
 
 
   </body>
