@@ -11,6 +11,7 @@ document.getElementById('containerdiv').innerHTML = document.getElementById("wel
 
 }
 //todo, fix alert message to not be alert. maybe css and make the fields red
+//klart
 function checkpassword(){
   var loginpassword = document.getElementById('loginpass');
 
@@ -23,19 +24,21 @@ function checkpassword(){
    return true;
   }
 }
+
 function checksamepass(){
   var pw1 = document.getElementById('pwd1');
   var pw2 = document.getElementById('pwd2');
-  var temptext;
+  var temptext = document.getElementById('text_pwd');
   if(pw1.value.length < X){
     //alert("ditt lösenord är för kort");
-    temptext = "Lösenordet är för kort";
+    temptext.innerHTML = "Lösenordet är för kort!";
     pw1.style.color = "red";
+  //  pw1.style.border-color ="red";
     return false;
   }
   if(pw1.value != pw2.value){
     //alert("dem stämmer inte överrens")
-    temptext = "Löseordet måste matcha!";
+    temptext.innerHTML = "Löseordet måste matcha!";
     pw2.style.color = "red";
     return false;
   }
@@ -44,5 +47,12 @@ function checksamepass(){
     //step 5
     //serverstub.signUp(document.getElementById('signupform'));
   }
-  document.getElementById('text_pwd').innerHTML = temptext;
+}
+
+function checkAll(){ //kolla igenom så alla är lika och sen returnera felmeddelande
+  var uname = document.getElementById('uname');
+
+  if(uname){
+
+  }
 }

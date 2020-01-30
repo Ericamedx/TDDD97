@@ -33,11 +33,11 @@
               <form id="signupform" onsubmit="return checksamepass()">
               <div class="formlabel">
                 <label for="uname">Name</label>
-                <input type="text" placeholder = "" name="uname" required>
+                <input type="text" id = "uname" placeholder = "" name="uname" required>
               </div>
 
                 <label for="fname">Family name</label>
-                <input type="text" placeholder = "" name="fname" required>
+                <input type="text" id = "fname" placeholder = "" name="fname" required>
 
                 <div class="gender">
                   <label for="gender">Gender</label>
@@ -49,21 +49,20 @@
                 </div>
                 <div class="formlabel"
                 <label for="City">City</label>
-                <input type="text" placeholder = "" name="City" required>
+                <input type="text" id = "city" placeholder = "" name="City" required>
                 </div>
                 <div class="formlabel"
                 <label for="Country">Country</label>
-                <input type="text" placeholder = "" name="Country" required>
+                <input type="text" id = "country" placeholder = "" name="Country" required>
                 </div>
                 <div class ="formlabel"
                 <label for="Email">Email</label>
-                <input type="email" placeholder = "" name="Email" required>
+                <input type="email" id = "email" placeholder = "" name="Email" required>
                 </div>
 
                 <div class="formlabel">
                 <label for="pwd">Password</label>
                 <input type="password" id ="pwd1" placeholder = "" name="pwd" required>
-                <p id ="text_pwd"> </p>
                 </div>
 
                 <div class="formlabel">
@@ -74,6 +73,7 @@
                 <div class="signbutton">
                   <button type="submit">Signup</button>
                 </div>
+                <p id ="text_pwd"> </p>
                 </form>
                 </div>
 
