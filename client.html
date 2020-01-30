@@ -1,6 +1,7 @@
 <html>
   <head>
       <link href="client.css" type="text/css" rel="stylesheet">
+
       <script src="client.js" type="text/javascript"></script>
       <script src="serverstub.js" type="text/javascript"></script>
 
@@ -9,12 +10,12 @@
             <div class = "logo">
             <img src="wimage.png">
             </div>
-
+            //<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
             <div class="login">
             <form onsubmit="return checkpassword()">
               <div class="loguname">
                 <label for="uname">Username</label>
-                <input type="text" placeholder = "Enter username" name="uname" required>
+                <input type="text" id = "uname" placeholder = "Enter username" name="uname" required>
               </div>
               <div class="formlabel">
                 <label for="pwd">Password</label>
@@ -43,7 +44,7 @@
 
                 <div class="gender">
                   <label for="gender">Gender</label>
-                  <select class="" name="">
+                  <select id = "gender" class="" name="">
                     <option value="Female"> Female </option>
                     <option value="Male"> Male </option>
                     <option value="NA"> NA </option>
@@ -86,8 +87,40 @@
 
           </script>
           <script id = "profileview" type="text/view">
-             <div class = "around">
-           <h> hej detta är profileview </h>
+          <div class = "around">
+          <div class="w3-bar w3-black">
+            <button class="w3-bar -item w3-button" onclick="openPage('home')">home</button>
+            <button class="w3-bar -item w3-button" onclick="openPage('browse')">browse</button>
+            <button class="w3-bar -item w3-button" onclick="openPage('Account')">Account</button>
+          </div>
+
+          <div class = "profilepage" id = "home">
+          <p> Hej detta är din homepage </p>
+          </div>
+
+          <div class = "profilepage" id = "browse" style ="display:none">
+          <p> Hej detta är din browsepage </p>
+          </div>
+
+          <div class = "profilepage" id = "Account" style ="display:none">
+          <p> Hej detta är din accountpage </p>
+
+          <p> Byta lösenord? </p>
+          <div class="formlabel">
+          <label for="pwd">Old Password</label>
+          <input type="password" id ="oldpass" placeholder = "" name="pwd" required>
+          </div>
+          <div class="formlabel">
+          <label for="pwd2">New Password</label>
+          <input type="password" id = "newpass" placeholder = "" name="pwd2" required>
+          </div>
+          <div class="formlabel">
+          <label for="pwd2">Repeat new Password</label>
+          <input type="password" id = "newpass2" placeholder = "" name="pwd2" required>
+          </div>
+          </div>
+          </div>
+
 
            </body>
          </script>
