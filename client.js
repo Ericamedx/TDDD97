@@ -16,7 +16,7 @@ function checkpassword(){
 
   if(loginpassword.value.length < X){
     loginpassword.style.color = "red";
-    alert("för kort lösenord");
+    //alert("för kort lösenord");
     return false;
   }
   else{
@@ -26,13 +26,16 @@ function checkpassword(){
 function checksamepass(){
   var pw1 = document.getElementById('pwd1');
   var pw2 = document.getElementById('pwd2');
+  var temptext;
   if(pw1.value.length < X){
-    alert("ditt lösenord är för kort");
+    //alert("ditt lösenord är för kort");
+    temptext = "Lösenordet är för kort";
     pw1.style.color = "red";
     return false;
   }
   if(pw1.value != pw2.value){
-    alert("dem stämmer inte överrens")
+    //alert("dem stämmer inte överrens")
+    temptext = "Löseordet måste matcha!";
     pw2.style.color = "red";
     return false;
   }
@@ -41,5 +44,5 @@ function checksamepass(){
     //step 5
     //serverstub.signUp(document.getElementById('signupform'));
   }
-
+  document.getElementById('text_pwd').innerHTML = temptext;
 }
