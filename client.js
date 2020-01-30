@@ -14,9 +14,11 @@ document.getElementById('containerdiv').innerHTML = document.getElementById("wel
 //klart
 function checkpassword(){
   var loginpassword = document.getElementById('loginpass');
+  var errormessage = document.getElementById('errormessage');
 
   if(loginpassword.value.length < X){
-    loginpassword.style.color = "red";
+    loginpassword.style.backgroundColor = "red";
+    errormessage.innerHTML = "Lösenordet är för kort!";
     //alert("för kort lösenord");
     return false;
   }
@@ -32,14 +34,14 @@ function checksamepass(){
   if(pw1.value.length < X){
     //alert("ditt lösenord är för kort");
     temptext.innerHTML = "Lösenordet är för kort!";
-    pw1.style.color = "red";
+    pw1.style.backgroundColor = "red";
   //  pw1.style.border-color ="red";
     return false;
   }
   if(pw1.value != pw2.value){
     //alert("dem stämmer inte överrens")
     temptext.innerHTML = "Löseordet måste matcha!";
-    pw2.style.color = "red";
+    pw2.style.backgroundColor = "red";
     return false;
   }
   else{
