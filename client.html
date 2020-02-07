@@ -86,7 +86,7 @@
 
           </script>
           <script id = "profileview" type="text/view">
-          <div class = "around">
+<div class = "around">
           <div class="w3-bar w3-black">
             <button class="w3-bar -item w3-button" onclick="openPage('home')">home</button>
             <button class="w3-bar -item w3-button" onclick="openPage('browse')">browse</button>
@@ -95,16 +95,67 @@
 
           <div class = "profilepage" id = "home">
           <p> Hej detta är din homepage </p>
+
+          <div id = "personalinfo">
+          <p>  personalinfo div <p>
+          <p id = "personalinfotext"> <p>;
+          </div>
+
+
+          <div id = "postdiv">
+          <textarea id = "posttextarea" rows="5" cols="50" name="post" form="postform">
+          </textarea>
+          <form id = "postform" onsubmit ="return userpost()">
+            <button type= "submit">Make post </button>
+          </form>
+
+          </div>
+
+
+
+          <div id = "wallposts">
+          <form onsubmit ="return updateposts()">
+          <button id="updatewall_button"> Update posts</button>
+           </form>
+
+          <p> your posts: </p>
+            <ul id = "submittedpostlist">
+            </ul>
+
+
+          </div>
+
+          <div id = "reloadposts">
+
+          </div>
           </div>
 
           <div class = "profilepage" id = "browse" style ="display:none">
           <p> Hej detta är din browsepage </p>
+
+          <form id ="browseform" onsubmit="return browseuser()">
+          <input id = "searchinput" type="text"> </input>
+           <button type="submit"> search </button>
+          </form>
+          <p id="error_search"> </p>
+
+          <div>
+          <p id ="founduserinfo"> </p>
+          <p> users posts: </p>
+          <ul id = "founduserlist">
+
+          </ul>
+
+          </div>
+
+
           </div>
 
           <div class = "profilepage" id = "Account" style ="display:none">
           <p> Hej detta är din accountpage </p>
 
           <p> Byta lösenord? </p>
+          <form id = "changepasswordform" onsubmit="return checknewpass()">
           <div class="formlabel">
           <label for="pwd">Old Password</label>
           <input type="password" id ="oldpass" placeholder = "" name="pwd" required>
@@ -117,8 +168,21 @@
           <label for="pwd2">Repeat new Password</label>
           <input type="password" id = "newpass2" placeholder = "" name="pwd2" required>
           </div>
+          <div class="newpassbutton">
+            <button type="submit">Change password</button>
+          </div>
+          <p id ="text_newpass"> </p>
+          </form>
+
+          <div class = "signoutdiv">
+          <button type="submit" onclick = "return signout()"> Sign out</button>
           </div>
           </div>
+
+
+
+
+</div>
 
 
            </body>
