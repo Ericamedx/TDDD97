@@ -53,7 +53,20 @@
   margin-top: 5;
   margin-bottom: 5;
 }
+#personalinfo {
+  background-color: white;
 
+}
+.tabbuttons {
+color:white;
+background-color: gray;
+}
+.activetab {
+  background-color:red;
+}
+.buttonbar {
+  background-color: black;
+}
 h1 {
   font-size: 24;
   margin-left: 50;
@@ -72,17 +85,4 @@ select {
 input {
   width: 150;
   float : right;
-}
-
-.menubar {
-  background-color: white;
-  padding: 10px;
-}
-
-.menubar a {
-  background-color: red;
-}
-
-.menubar a.menubot {
-    background-color: blue; 
 }

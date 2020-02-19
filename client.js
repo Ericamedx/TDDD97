@@ -28,8 +28,17 @@ document.getElementById('containerdiv').innerHTML = document.getElementById("wel
 function showuserinfo(){
 var personalinfotext = document.getElementById('personalinfotext');
 var userdata = serverstub.getUserDataByToken(localStorage.token);
-personalinfotext.innerHTML = JSON.stringify(userdata.data);
+temp2string = "<pre>"+JSON.stringify(userdata.data, null, 2)+"</pre>";
+//temp2string.replace("{","").replace("", '');
+tempstring = "";
 
+tempstring += "email: " + userdata.data.email;
+tempstring += "<br/>"+ "First name: " + userdata.data.firstname;
+tempstring += "<br/>"+ "Family name: " + userdata.data.familyname;
+tempstring += "<br/>"+ "Gender: " + userdata.data.gender;
+tempstring += "<br/>"+ "City: " + userdata.data.city;
+tempstring += "<br/>"+ "Country: " + userdata.data.country;
+personalinfotext.innerHTML = tempstring;
 }
 function updatelist(userdata, list_id){
  var mylist = document.getElementById(list_id);
@@ -39,9 +48,11 @@ function updatelist(userdata, list_id){
 //}
 
   for(var i = 0; i < userdata.data.length; i++){
-    var json = JSON.stringify("user: " + userdata.data[i].writer + "  :" + userdata.data[i].content);
-    json.replace(/\\"/g,"\uFFFF");
-    json = json.replace(/\"([^(\")"]+)\":/g,"$1:");
+    //var json = "user: "+ JSON.stringify(userdata.data[i].writer + userdata.data[i].content);
+    var json = "user: " + userdata.data[i].writer + "       posted: " + userdata.data[i].content;
+
+    //json.replace(/\\"/g,"\uFFFF");
+    //json = json.replace(/\"([^(\")"]+)\":/g,"$1:");
 
     var entry = document.createElement('li');
     entry.appendChild(document.createTextNode(json));
@@ -65,7 +76,7 @@ if(result.success){
 
 
 
-userinfo.innerHTML = JSON.stringify(result.data);
+userinfo.innerHTML = JSON.stringify(result.data.value);
 //window.alert(result.message);
 }
 else{
@@ -247,12 +258,17 @@ function checkAll(){ //kolla igenom så alla är lika och sen returnera felmedde
 
   }
 }
-function openPage(pageName) {
-  var i;
-  var pages = document.getElementsByClassName("profilepage");
+function openPage(evt, pageName) {
+  var i, pages, tablinks;
+  pages = document.getElementsByClassName("profilepage");
   for (i = 0; i < pages.length; i++) {
     pages[i].style.display = "none";
   }
+  tablinks = document.getElementsByClassName("tabbuttons")
+  for(i = 0; i< pages.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" activetab", "");
+  }
   document.getElementById(pageName).style.display = "block";
+  evt.currentTarget.className += " activetab";
 
 }

@@ -86,19 +86,19 @@
 
           </script>
           <script id = "profileview" type="text/view">
-          <div class = "around">
-            <div class="menubar">
-              <a class="menubot" onclick="openPage('home')">home</a>
-              <a class="menubot" onclick="openPage('browse')">browse</a>
-              <button class="menubot" onclick="openPage('Account')">Account</button>
-            </div>
+<div class = "around">
+          <div class="buttonbar">
+            <button class="tabbuttons activetab" onclick="openPage(event, 'home')">home</button>
+            <button class="tabbuttons" onclick="openPage(event, 'browse')">browse</button>
+            <button class="tabbuttons" onclick="openPage(event, 'Account')">Account</button>
+          </div>
 
           <div class = "profilepage" id = "home">
           <p> Hej detta är din homepage </p>
 
           <div id = "personalinfo">
-          <p>  personalinfo div <p>
-          <p id = "personalinfotext"> <p>;
+          <p>  Your personal info <p>
+          <p id = "personalinfotext"> <p>
           </div>
 
 
