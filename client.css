@@ -73,3 +73,16 @@ input {
   width: 150;
   float : right;
 }
+
+.menubar {
+  background-color: white;
+  padding: 10px;
+}
+
+.menubar a {
+  background-color: red;
+}
+
+.menubar a.menubot {
+    background-color: blue; 
+}

@@ -86,12 +86,12 @@
 
           </script>
           <script id = "profileview" type="text/view">
-<div class = "around">
-          <div class="w3-bar w3-black">
-            <button class="w3-bar -item w3-button" onclick="openPage('home')">home</button>
-            <button class="w3-bar -item w3-button" onclick="openPage('browse')">browse</button>
-            <button class="w3-bar -item w3-button" onclick="openPage('Account')">Account</button>
-          </div>
+          <div class = "around">
+            <div class="menubar">
+              <a class="menubot" onclick="openPage('home')">home</a>
+              <a class="menubot" onclick="openPage('browse')">browse</a>
+              <button class="menubot" onclick="openPage('Account')">Account</button>
+            </div>
 
           <div class = "profilepage" id = "home">
           <p> Hej detta är din homepage </p>
@@ -103,30 +103,24 @@
 
 
           <div id = "postdiv">
-          <textarea id = "posttextarea" rows="5" cols="50" name="post" form="postform">
-          </textarea>
-          <form id = "postform" onsubmit ="return userpost()">
-            <button type= "submit">Make post </button>
-          </form>
-
+            <textarea id = "posttextarea" rows="5" cols="50" name="post" form="postform">
+            </textarea>
+            <form id = "postform" onsubmit ="return userpost()">
+              <button type= "submit">Make post </button>
+              </form>
           </div>
 
-
-
           <div id = "wallposts">
-          <form onsubmit ="return updateposts()">
-          <button id="updatewall_button"> Update posts</button>
-           </form>
+            <form onsubmit ="return updateposts()">
+              <button id="updatewall_button"> Update posts</button>
+            </form>
 
           <p> your posts: </p>
             <ul id = "submittedpostlist">
             </ul>
-
-
           </div>
 
           <div id = "reloadposts">
-
           </div>
           </div>
 
@@ -134,8 +128,8 @@
           <p> Hej detta är din browsepage </p>
 
           <form id ="browseform" onsubmit="return browseuser()">
-          <input id = "searchinput" type="text"> </input>
-           <button type="submit"> search </button>
+            <input id = "searchinput" type="text"> </input>
+            <button type="submit"> search </button>
           </form>
           <p id="error_search"> </p>
 
