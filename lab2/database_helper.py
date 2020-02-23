@@ -38,3 +38,9 @@ def find_user(email): # kolla om användaren finns
         print('welcome')
     else:
         print('log in failed')
+
+def remove_user():
+
+    pass
+def create_post():
+    pass
