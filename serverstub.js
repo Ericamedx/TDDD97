@@ -26,7 +26,7 @@ var serverstub = (function() {
       }
 
   }
-  
+
   var persistUsers = function(){
     localStorage.setItem("users", JSON.stringify(users));
   };

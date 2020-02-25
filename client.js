@@ -1,5 +1,6 @@
 var X = 5;
 
+var searchedemail = "";
 //todo, eventually minor/major changes to code. needs to check that everything works properly and every condiition of the lab is correct.
 // cont: css changes and general cleanup pls älskling <3
 // also take away every window.alert if its still left.
@@ -43,10 +44,9 @@ personalinfotext.innerHTML = tempstring;
 function updatelist(userdata, list_id){
  var mylist = document.getElementById(list_id);
 
- //while( mylist.firstChild ){
-//  mylist.removeChild( mylist.firstChild );
-//}
-
+ while( mylist.firstChild ){
+  mylist.removeChild( mylist.firstChild );
+}
   for(var i = 0; i < userdata.data.length; i++){
     //var json = "user: "+ JSON.stringify(userdata.data[i].writer + userdata.data[i].content);
     var json = "user: " + userdata.data[i].writer + "       posted: " + userdata.data[i].content;
@@ -65,32 +65,67 @@ function updatelist(userdata, list_id){
 function updateposts(){
   window.onload();
 }
+
+function browsepost(){
+  var postmessage = document.getElementById("posttextareabrowse");
+  if(postmessage.value.length < 1){
+    return false;
+  }
+  else{
+  //if(searchedemail.length < 1){
+  var result = serverstub.postMessage(localStorage.token, postmessage.value, searchedemail);
+  updatebrowseposts();
+//}
+}
+return false;
+}
+function updatebrowseposts(){
+var userdata = serverstub.getUserMessagesByEmail(localStorage.token, searchedemail);
+updatelist(userdata, 'founduserlist')
+return false;
+
+}
 function browseuser(){
 var searchemail = document.getElementById('searchinput');
-
+searchedemail = searchemail.value;
 var errormessage = document.getElementById('error_search');
 var userinfo = document.getElementById('founduserinfo');
 
-var result = serverstub.getUserDataByEmail(localStorage.token, searchemail.value);
-if(result.success){
+var userdata = serverstub.getUserDataByEmail(localStorage.token, searchemail.value);
+//window.alert(userdata.message);
+if(userdata.success){
+  //temp2string = "<pre>"+JSON.stringify(userdata.data, null, 2)+"</pre>";
+  //temp2string.replace("{","").replace("", '');
+  //window.alert(userdata.message);
+  var browsediv = document.getElementById('browsepostdiv');
+  browsediv.style.display = "block";
+  tempstring = "";
 
-
-
-userinfo.innerHTML = JSON.stringify(result.data.value);
-//window.alert(result.message);
+  tempstring += "email: " + userdata.data.email;
+  tempstring += "<br/>"+ "First name: " + userdata.data.firstname;
+  tempstring += "<br/>"+ "Family name: " + userdata.data.familyname;
+  tempstring += "<br/>"+ "Gender: " + userdata.data.gender;
+  tempstring += "<br/>"+ "City: " + userdata.data.city;
+  tempstring += "<br/>"+ "Country: " + userdata.data.country;
+  userinfo.innerHTML = tempstring;
+  errormessage.innerHTML = "";
+  //userinfo.innerHTML = JSON.stringify(result.data.value);
+//window.alert(userdata.message);
 }
 else{
-  //window.alert(result.message);
-  //errormessage.innerHTML = result.message;
+  //window.alert(userdata.message);
+  errormessage.innerHTML = userdata.message;
 
 }
 var userposts = serverstub.getUserMessagesByEmail(localStorage.token, searchemail.value);
 if(userposts.success){
 updatelist(userposts, 'founduserlist');
+errormessage.innerHTML = "";
+//window.alert(userdata.message);
 
 }
 else{
-  errormessage.innerHTML = result.message;
+  errormessage.innerHTML = userdata.message;
   userinfo.innerHTML = "";
   var mylist = document.getElementById('founduserlist');
   while( mylist.firstChild ){
@@ -158,7 +193,7 @@ function checknewpass(){
     if(oldpass.value != pw1.value){
       var result = serverstub.changePassword(localStorage.token, oldpass, newpass);
 
-      window.alert(result.message);
+      //window.alert(result.message);
 
       temptext.innerHTML = result.message;
       return false;
@@ -169,7 +204,7 @@ function checknewpass(){
 function signout(){
   var temptext = document.getElementById('text_newpass');
   var result = serverstub.signOut(localStorage.token);
-  window.alert(result.message);
+  //window.alert(result.message);
   temptext.innerHTML = result.message;
   localStorage.removeItem("token");
   window.onload();
@@ -214,7 +249,7 @@ function checksamepass(){
 
       // window.alert(serverstub.signUp(formObject));
        var signupresult = serverstub.signUp(formObject);
-       window.alert(signupresult.message);
+       //window.alert(signupresult.message);
 
       success = signupresult.success;
       message = signupresult.message;

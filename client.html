@@ -135,15 +135,32 @@
 
           <div>
           <p id ="founduserinfo"> </p>
+
+          <div id= "browsepostdiv" style = "display:none">
+          <div id = "postdiv">
+            <textarea id = "posttextareabrowse" rows="5" cols="50" name="post" form="postform2">
+            </textarea>
+            <form id = "postform2" onsubmit ="return browsepost()">
+              <button type= "submit">Make post </button>
+              </form>
+          </div>
+
+          <div id = "wallposts">
+            <form onsubmit ="return updatebrowseposts()">
+              <button id="updatewall_button"> Update posts</button>
+            </form>
+
           <p> users posts: </p>
           <ul id = "founduserlist">
 
           </ul>
 
           </div>
-
-
           </div>
+          </div>
+          </div>
+
+
 
           <div class = "profilepage" id = "Account" style ="display:none">
           <p> Hej detta är din accountpage </p>
