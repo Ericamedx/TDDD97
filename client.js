@@ -192,7 +192,7 @@ function checknewpass(){
     pw2.style.backgroundColor = "white";
       var result = serverstub.changePassword(localStorage.token, oldpass.value, newpass.value);
       //changed oldpass and newpass to oldpass.value and newpass.value
-      window.alert(result.message);
+      //window.alert(result.message);
       temptext.innerHTML = result.message;
       return false;
       }
