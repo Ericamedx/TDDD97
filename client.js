@@ -190,14 +190,11 @@ function checknewpass(){
   }
     else{
     pw2.style.backgroundColor = "white";
-    if(oldpass.value != pw1.value){
-      var result = serverstub.changePassword(localStorage.token, oldpass, newpass);
-
-      //window.alert(result.message);
-
+      var result = serverstub.changePassword(localStorage.token, oldpass.value, newpass.value);
+      //changed oldpass and newpass to oldpass.value and newpass.value
+      window.alert(result.message);
       temptext.innerHTML = result.message;
       return false;
-      }
       }
       return false;
 }
