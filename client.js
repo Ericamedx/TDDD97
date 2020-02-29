@@ -140,6 +140,8 @@ function checkpassword(){
   var loginpassword = document.getElementById('loginpass');
   var loguname = document.getElementById('uname');
   var errormessage = document.getElementById('errormessage');
+
+
   if(loginpassword.value.length < X){
     loginpassword.style.backgroundColor = "red";
     errormessage.innerHTML = "Lösenordet är för kort!";
@@ -159,8 +161,9 @@ function checkpassword(){
 
    }
    else{
+     errormessage.innerHTML = message;
      return false;
-     window.onload();
+     //window.onload();
    }
 
   }
@@ -257,14 +260,19 @@ function checksamepass(){
         localStorage.gender = formObject.gender;
         localStorage.city = formObject.city;
         localStorage.country = formObject.country;
+        serverstub.signIn(formObject.email, formObject.password);
+        temptext.innerHTML = message;
+        //window.onload();
       }
-      serverstub.signIn(formObject.email, formObject.password);
-      window.onload();
+      else{
+        temptext.innerHTML = message;
+      }
       //window.alert("test" + message);
     //return true;
     //step 5
     //serverstub.signUp(document.getElementById('signupform'));
   }
+  return false;
 }
 
 function userpost(){
