@@ -3,9 +3,18 @@ from flask import Flask, escape, request
 import json
 import database_helper
 app = Flask(__name__)
+X = 5;
 
 #steg 0 - hello world kolla mot postman?
 #steg 0 - hello world kolla mot postman
+#1. Use the URL when the used method is GET.
+#2. Use JSON when the used method is POST or PUT.
+#3. Always use HTTP headers for sending the token.
+#You can use the Authorization header for receiving the token.
+@app.before_request
+def beforeRequest():
+    database_helper.connect();
+
 @app.route('/')
 def hello():
     name = request.args.get("name", "world")
@@ -16,28 +25,43 @@ def sign_in():
     #logga in användare
     email = request.form['email'] #eller username
     password = request.form['password']
-    user_info = database_helper.find_user(email)
+    token = 1
+    result = database_helper.add_signeduser(email, password, token)
 
-    if user_info and user_info["email"] == email and user_info["password"] == password:
+    if result:
         # returnera token och succes = true
         jsonobj = json.dumps({"true" : "yes", "success" : True, "token" : 1})
         return jsonobj
     else:
+        jsonobj = json.dumps({"true" : "no", "success" : False, "token" : 0})
+        return jsonobj
         pass
         # returnera att det är fel namn samt succes = false
 @app.route('/sign_up', methods = ['GET'])
 def sign_up():
-     email = request.form['email']
-     password = request.form['password']
-     fname = request.form['firstname']
-     sname = request.form['surname']
-     country = request.form['country']
-     city = request.form['city']
-     gender = request.form['gender']
+     signupdata = {};
+     signupdata['email'] = request.form['email']
+     signupdata['password'] = request.form['password']
+     signupdata['fname'] = request.form['firstname']
+     signupdata['sname'] = request.form['surname']
+     signupdata['country'] = request.form['country']
+     signupdata['city'] = request.form['city']
+     signupdata['gender'] = request.form['gender']
+     email = signupdata['email']
+     password = signupdata['password']
+     fname = signupdata['fname']
+     sname = signupdata['sname']
+     country = signupdata['country']
+     city = signupdata['city']
+     gender = signupdata['gender']
 
      if(email and password and fname and sname and country and city and gender and (len(password) > 5)):
-         #if (len(password) < 5):
-             jsonobj = json.dumps({"true" : "yes", "success" : True, "email" : email, "password" : password, "firstname" : fname, "sname" : sname, "country" : country, "city": city, "gender": gender})
+         if (len(password) > X):
+              database_helper.add_user(email, password, fname, sname, country, city, gender);
+              jsonobj = json.dumps({"true" : "yes", "success" : True, "email" : email, "password" : password, "firstname" : fname, "sname" : sname, "country" : country, "city": city, "gender": gender})
+              return jsonobj
+         else:
+             jsonobj = json.dumps({"true" : "no", "success" : False})
              return jsonobj
      else:
          jsonobj = json.dumps({"true" : "no", "success" : False})

@@ -1,0 +1,1 @@
+ta upp 3 cmd prompts. En för flask server.py, en för flask database_helper och en för att skriva sqlite3 database.db < schema.sql
