@@ -15,6 +15,10 @@ token = ""
 #2. Use JSON when the used method is POST or PUT.
 #3. Always use HTTP headers for sending the token.
 #You can use the Authorization header for receiving the token.
+
+#start sqlite3 database.db < schema.sql in cmd
+#setup python -m flask run with server.py in cmd
+#now try different calls in postman/telnet
 @app.before_request
 def beforeRequest():
     database_helper.connect();
@@ -123,7 +127,7 @@ def get_user_data_by_token():
     if(res is not None):
         jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "userinfo" : res})
     else:
-        jsonobj = json.dumps({"message" : "something went wrong", "success" : False})
+        jsonobj = json.dumps({"message" : "no data for that email", "success" : False})
 
     return jsonobj
 
@@ -134,7 +138,7 @@ def get_user_data_by_email():
     if(res is not None):
         jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "userinfo" : res})
     else:
-        jsonobj = json.dumps({"message" : "something went wrong", "success" : False})
+        jsonobj = json.dumps({"message" : "no data for that email", "success" : False})
 
     return jsonobj
 
@@ -145,7 +149,7 @@ def Get_user_messages_by_token():
     if(res is not None):
         jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "posts" : res})
     else:
-        jsonobj = json.dumps({"message" : "No posts yet", "success" : False})
+        jsonobj = json.dumps({"message" : "no posts yet", "success" : False})
 
     return jsonobj
 @app.route('/get_user_messages_by_email', methods = ['GET'])
@@ -155,7 +159,7 @@ def get_user_messages_by_email():
     if(res):
         jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "posts" : res})
     else:
-        jsonobj = json.dumps({"message" : "something went wrong", "success" : False})
+        jsonobj = json.dumps({"message" : "Non existent user", "success" : False})
 
     return jsonobj
 @app.route('/post_message', methods = ['POST'])
@@ -174,6 +178,6 @@ def post_message():
     if(res is not None):
         jsonobj = json.dumps({"message" : "you posted", "success" : True})
     else:
-        jsonobj = json.dumps({"message" : "something went wrong", "success" : False})
+        jsonobj = json.dumps({"message" : "Either not logged in or none existend browsed user", "success" : False})
 
     return jsonobj
