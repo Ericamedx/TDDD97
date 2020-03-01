@@ -8,7 +8,7 @@ import sqlite3
 from flask import Flask
 from flask import g
 
-app = Flask(__name__)
+#app = Flask(__name__)
 conn = sqlite3.connect('database.db')
 c = conn.cursor()
 databaseConnection = None
@@ -36,38 +36,41 @@ def connect_db():
 def add_signeduser(email, password, token):
     #realpassword = query_db('select password from users where email = ?', (email,))
     #realpassword = 'test'
+    #should we check if the user is already in the signedinusers table?
     cursor = databaseConnection.cursor()
     cursor.execute('select password from users where email = ?', (email,))
     realpassword = cursor.fetchone()
-
+    cursor.execute('select token from signedInUsers where email = ?', (email,))
+    signedinusertoken = cursor.fetchone()
+    if(signedinusertoken == token):
+        return False
+    if(realpassword is None):
+        return False
     if (realpassword[0] == password):
-        cursor.execute('insert into signedInUsers values (?,?)', (token, email,))
-        cursor.close()
+        query_db('insert into signedInUsers values (?,?)', (token, email,))
+        #cursor.close()
         return True
     else:
         cursor.close()
         return False
-def find_user(email): # kolla om användaren finns
-    #connect_db()
-    db = g._database = sqlite3.connect('database.db')
-    curs = db.cursor()
-    curs.execute(""" SELECT Email, Password FROM users WHERE Email = ? """, (email,))
 
-    res = curs.fetchall()
-    curs.close()
-    return res;
-    #if curs.fetchall(): #oklart med denna..
-    #    print('welcome')
-    #else:
-    #    print('log in failed')
-
-def add_user(email, password, firstName, lastName, country, city, gender):
-    return query_db('insert into users values (?, ?, ?, ?, ?, ?, ?)',(email, password, firstName, lastName, gender, city, country))
+def removesigneduser(token):
+    #not sure if user really gets deleted.
+    return query_db('DELETE FROM signedInUsers WHERE token = ?', (token,))
+    #cursor = databaseConnection.cursor()
+    #cursor.execute('remove signedInUsers values (?,?) where token =?', (token,))
+    #res = cursor.fetchall()
+    #if(res is None):
+    #        return False
+    #    else:
+    #        return True
 
 def connect():
     global databaseConnection
     databaseConnection = sqlite3.connect('database.db')
-
+def closeconnection():
+    if (databaseConnection is not None):
+        databaseConnection.close()
 def query_db(query, args=()):
 	#db= sqlite3.connect('database.db')
     cursor = databaseConnection.cursor()
@@ -75,12 +78,56 @@ def query_db(query, args=()):
     databaseConnection.commit()
     cursor.close()
     return True
-    #print rv
-	#cur.close()
-	#db.commit()
-    #return rv
-	#return (rv[0] if rv else None) if one else rv
 
+def query_db_one(query, args=()):
+    cursor = databaseConnection.cursor()
+    cursor.execute(query, args)
+    result = cursor.fetchone()
+    cursor.close()
+    return result
+def query_db_all(query, args=()):
+    cursor = databaseConnection.cursor()
+    cursor.execute(query, args)
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+    #return None
+def getUserDataByToken(token): # kolla om användaren finns
+    #connect_db()
+    email = getUserEmailByToken(token)
+    return getUserDataByEmail(email)
+    
+def getUserDataByEmail(email):
+    return query_db_one('select * from users where email = ?', (email,))
+def add_user(email, password, firstName, lastName, country, city, gender):
+    return query_db('insert into users values (?, ?, ?, ?, ?, ?, ?)',(email, password, firstName, lastName, gender, city, country))
+
+def getUserMessagesByEmail(email):
+    return query_db_all('select * from messages where browsedemail = ?', (email,))
+def getUserMessagesByToken(token):
+    return query_db_all('select * from messages where browsedemail = ?', (email,))
+def getUserEmailByToken(token):
+    email = query_db_one('select email from signedInUsers where token = ?', (token,))
+    if email is not None:
+        return email[0]
+    else:
+        return None
+
+def getUserPasswordByEmail(email):
+    password = query_db_one('select password from users where email = ?', (email,))
+    if password is not None:
+        return password[0]
+    else:
+        return None
+
+def insertMessage(writerEmail, email, message):
+    return query_db('insert into messages (message, browsedemail, writer) values (?, ?, ?)', (message, email, writerEmail))
+
+def deleteSignedInUser(token):
+    return query_db('delete from signedInUsers where token = ?', (token,))
+
+def updateUserPassword(email, password):
+    return query_db('update users set password = ? where email = ?', (password, email))
 def remove_user():
 
     pass

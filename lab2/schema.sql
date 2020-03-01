@@ -20,7 +20,7 @@ CREATE TABLE messages (
        messageId INTEGER PRIMARY KEY AUTOINCREMENT,
        message TEXT NOT NULL,
        datePosted TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-       wallEmail VARCHAR(200) NOT NULL,
+       browsedemail VARCHAR(200) NOT NULL,
        writer VARCHAR(200) NOT NULL,
-       FOREIGN KEY (wallEmail) REFERENCES users(email),
+       FOREIGN KEY (browsedemail) REFERENCES users(email),
        FOREIGN KEY (writer) REFERENCES users(email));
