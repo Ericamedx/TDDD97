@@ -44,7 +44,6 @@ def sign_in():
     password = request.form['password']
     token = gettoken()
     result = database_helper.add_signeduser(email, password, token)
-
     if result:
         # returnera token och succes = true
         jsonobj = json.dumps({"message" : "signed in", "success" : True, "token" : token})
@@ -102,7 +101,7 @@ def sign_out():
       #return jsonobj
     #jsonobj = json.dumps({"true" : "no", "success" : False})
     return jsonobj
-@app.route('/Change_password', methods = ['GET'])
+@app.route('/Change_password', methods = ['POST'])
 def changepassword():
     token = request.headers['Authorization']
     oldPassword = request.form['oldPassword']
@@ -120,7 +119,7 @@ def changepassword():
         return jsonobj
     #return "hej"
 
-@app.route('/get_user_data_by_token', methods = ['GET'])
+@app.route('/get_user_data_by_token', methods = ['POST'])
 def get_user_data_by_token():
     token = request.headers['Authorization']
     res = database_helper.getUserDataByToken(token)
@@ -131,35 +130,52 @@ def get_user_data_by_token():
 
     return jsonobj
 
-@app.route('/get_user_data_by_email', methods = ['GET'])
-def get_user_data_by_email():
-    email = request.form['email']
-    res = database_helper.getUserDataByEmail(email)
-    if(res is not None):
-        jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "userinfo" : res})
+@app.route('/get_user_data_by_email/<email>', methods = ['GET'])
+def get_user_data_by_email(email):
+    #email = request.form['email']
+    token = request.headers['Authorization']
+    #check if token and user exist
+    restoken = database_helper.getUserEmailByToken(token)
+    if(restoken is None):
+        jsonobj = json.dumps({"message" : "Authorization failed", "success" : True})
     else:
-        jsonobj = json.dumps({"message" : "no data for that email", "success" : False})
+        res = database_helper.getUserDataByEmail(email)
+        if(res is not None):
+            jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "userinfo" : res})
+        else:
+            jsonobj = json.dumps({"message" : "no data for that email", "success" : False})
 
     return jsonobj
 
-@app.route('/Get_user_messages_by_token', methods = ['GET'])
+@app.route('/Get_user_messages_by_token/', methods = ['GET'])
 def Get_user_messages_by_token():
     token = request.headers['Authorization']
-    res = database_helper.getUserMessagesByToken(token)
-    if(res is not None):
-        jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "posts" : res})
+    #check if token and user exist
+    restoken = database_helper.getUserEmailByToken(token)
+    if(restoken is None):
+        jsonobj = json.dumps({"message" : "Authorization failed", "success" : True})
     else:
-        jsonobj = json.dumps({"message" : "no posts yet", "success" : False})
+        res = database_helper.getUserMessagesByToken(token)
+        if(res is not None):
+            jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "posts" : res})
+        else:
+            jsonobj = json.dumps({"message" : "no posts yet", "success" : False})
 
     return jsonobj
-@app.route('/get_user_messages_by_email', methods = ['GET'])
-def get_user_messages_by_email():
-    email = request.form['email']
-    res = database_helper.getUserMessagesByEmail(email)
-    if(res):
-        jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "posts" : res})
+@app.route('/get_user_messages_by_email/<email>', methods = ['GET'])
+def get_user_messages_by_email(email):
+    token = request.headers['Authorization']
+    #check if token and user exist
+    restoken = database_helper.getUserEmailByToken(token)
+    if(restoken is None):
+        jsonobj = json.dumps({"message" : "Authorization failed", "success" : True})
     else:
-        jsonobj = json.dumps({"message" : "Non existent user", "success" : False})
+        #email = request.form['email']
+        res = database_helper.getUserMessagesByEmail(email)
+        if(res):
+            jsonobj = json.dumps({"message" : "userinfo retrieved", "success" : True, "posts" : res})
+        else:
+            jsonobj = json.dumps({"message" : "Non existent user", "success" : False})
 
     return jsonobj
 @app.route('/post_message', methods = ['POST'])
@@ -168,7 +184,6 @@ def post_message():
     token = request.headers['Authorization']
     writerEmail = database_helper.getUserEmailByToken(token)
     message = request.form['message']
-    #writerEmail = request.form['writerEmail']
     browsedemail = request.form['email']
     res2 = database_helper.getUserDataByEmail(browsedemail)
 

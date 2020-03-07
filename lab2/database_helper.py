@@ -42,7 +42,7 @@ def add_signeduser(email, password, token):
     realpassword = cursor.fetchone()
     cursor.execute('select token from signedInUsers where email = ?', (email,))
     signedinusertoken = cursor.fetchone()
-    if(signedinusertoken == token):
+    if(signedinusertoken):
         return False
     if(realpassword is None):
         return False
@@ -96,7 +96,7 @@ def getUserDataByToken(token): # kolla om användaren finns
     #connect_db()
     email = getUserEmailByToken(token)
     return getUserDataByEmail(email)
-    
+
 def getUserDataByEmail(email):
     return query_db_one('select * from users where email = ?', (email,))
 def add_user(email, password, firstName, lastName, country, city, gender):
@@ -128,8 +128,3 @@ def deleteSignedInUser(token):
 
 def updateUserPassword(email, password):
     return query_db('update users set password = ? where email = ?', (password, email))
-def remove_user():
-
-    pass
-def create_post():
-    pass
