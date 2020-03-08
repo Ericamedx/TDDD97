@@ -4,9 +4,9 @@ var server = "http://localhost:5000/";
 var port = "5000";
 var searchedemail = "";
 
-displayView = function(){
-// the code required to display a view
-};
+function displayview(view){
+  document.getElementById('containerdiv').innerHTML = document.getElementById(view).innerHTML;
+}
 window.onload = function(){
 //code that is executed as the page is loaded.
 //You shall put your own custom code here.
@@ -23,22 +23,85 @@ if(localStorage.token != null && localStorage.token != 0){ //&& localStorage.tok
 
   path = "Get_user_messages_by_token/";
     HTTPget(path, function(myhttphelper){
-
     result = JSON.parse(myhttphelper.responseText);
     userdata = result.posts;
     if(result.success){
 
-
     updatelist(userdata, 'submittedpostlist');
     }
   });
+  connectwithsocket();
 
 }
 else{
 document.getElementById('containerdiv').innerHTML = document.getElementById("welcomeview").innerHTML;
 }
 }
+function connectwithsocket(){
+    var ws = new WebSocket("ws://" + document.domain + ':' + port + "/api");
+    //var ws = new WebSocket("ws://" + "127.0.0.1:" + "5000/api")
+    ws.onopen = function(){
+    var data = {
+      'token': localStorage.getItem('token'),
+      'email': localStorage.getItem('email')
+    };
+    //sends new session token
+    if (data !== undefined) {
+      console.log(JSON.stringify(data));
+      ws.send(JSON.stringify(data));
 
+    }
+  }
+
+  //receives msg from the server WebSocket
+  ws.onmessage = function (event) {
+    window.alert("connection websocket");
+   console.log(event.data);
+   var msg = JSON.parse(event.data);
+
+   if (msg.success == false) {
+     //logOut();
+     console.log(msg.message);
+   }
+ };
+/*
+  ws.onmessage = function(event) {
+    //window.alert("onmessage");
+
+    console.log(event.data);
+    var msg = JSON.parse(event.data);
+
+    if (msg.success == false) {
+      //window.alert("connection websocket: FALSE");
+      //localStorage.removeItem('token');
+      //localStorage.removeItem('email');
+      Forcelogoutclient();
+      document.getElementById('containerdiv').innerHTML = document.getElementById(view).innerHTML;
+      console.log(msg.message);
+    }
+  };
+  */
+
+  ws.onclose = function() {
+    //logOut();
+    console.log("Websocket closed");
+	};
+
+	ws.onerror = function() {
+    console.log("Error in Websocket");
+	};
+}
+function Forcelogoutclient(){
+  window.alert("test");
+  formobject = new FormData();
+  formobject.append('Authorization', localStorage.token)
+
+  HTTP_post('sign_out', formobject, function(){});
+  localStorage.token = 0;
+  localStorage.removeItem('token');
+  localStorage.removeItem('email');
+  displayview('welcomeview');
+}
 function HTTPget(path, fact){
     var myhttphelper = new XMLHttpRequest();
     myhttphelper.onreadystatechange = function() {
@@ -75,13 +138,14 @@ HTTPget("get_user_data_by_token", function(myhttphelper){
   temp2string = "<pre>"+JSON.stringify(userdata, null, 2)+"</pre>";
   //temp2string.replace("{","").replace("", '');
   tempstring = "";
-
+  if(userdata){
   tempstring += "email: " + userdata[0];
   tempstring += "<br/>"+ "First name: " + userdata[3];
   tempstring += "<br/>"+ "Family name: " + userdata[2];
   tempstring += "<br/>"+ "Gender: " + userdata[4];
   tempstring += "<br/>"+ "City: " + userdata[5];
   tempstring += "<br/>"+ "Country: " + userdata[6];
+  }
   //tempstring = userdata[0];
   personalinfotext.innerHTML = tempstring;
 });
@@ -239,34 +303,15 @@ function checkpassword(){
    HTTP_post("sign_in", formObject, function(myhttphelper){
      result = JSON.parse(myhttphelper.responseText);
      errormessage.innerHTML = result.message;
-
-     
      if(result.success){
        localStorage.token = result.token;
        localStorage.email = loguname.value;
+       //connectwithsocket();
        window.onload();
      }
      return false;
    });
 
-
-   /*
-   var success = loginresult.success;
-   var message = loginresult.message;
-   if(success){
-     var token = loginresult.data;
-     localStorage.token = token;
-     window.onload();
-
-   }
-   else{
-     errormessage.innerHTML = message;
-     return false;
-     //window.onload();
-   }
-
-  }
-  */
 }
   return false;
 }

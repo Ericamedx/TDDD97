@@ -16,8 +16,8 @@ from Twidder import database_helper
 app = Flask('Twidder')
 X = 5
 token = ""
+activesockets = dict()
 
-#sockets = dict()
 #steg 0 - hello world kolla mot postman?
 #steg 0 - hello world kolla mot postman
 #1. Use the URL when the used method is GET.
@@ -51,16 +51,69 @@ def gettoken():
         token += letters[randint(0,len(letters) - 1)]
 
     return token
+@app.route('/api')
+def api():
+    if request.environ.get('wsgi.websocket'):
+        ws = request.environ['wsgi.websocket']
+        object = ws.receive()
+        message = json.loads(object)
+
+        user = database_helper.getSignedinUsertokenByEmail(message['email'])
+        if not user:
+            jsonobj = json.dumps({"message" : "no such email", "success" : False})
+            ws.send(jsonobj)
+            #return ''
+        try:
+            if message['email'] in activesockets:
+                print (message['email'] + ' has a socket')
+                #jsonobj = json.dumps({"message" : "user already logged in", "success" : False})
+                print ('Socket saved with ' + message['email'])
+            activesockets[message['email']] = ws
+
+            while True:
+                    object = ws.receive()
+                    if object == None:
+                        activesockets.pop(message['email'], None)
+                        ws.close
+                        return ''
+                        #print("Socket closed for " + data['email'])
+        except WebSocketError:
+            print ('Web socket connection error ')
+            sockets.pop(message['email'], None)
+            #for emails in activesockets.keys():
+                #if emails == ws:
+                    #del activesockets[emails]
+                    #break
+
+            #message = ws.wait()
+            #ws.send(message)
+    return ''
 @app.route('/sign_in', methods = ["POST"])
 def sign_in():
     #logga in användare
     email = request.form['email'] #eller username
     password = request.form['password']
     token = gettoken()
+
+    result = database_helper.getUserDataByEmail(email)
+    if result:
+        res2 = database_helper.getSignedinUsertokenByEmail(email)
+        if res2:
+
+            database_helper.deleteSignedInUserbyEmail(email)
+            # returnera token och succes = true
+            if email in activesockets:
+                    try:
+                        ws = activesockets[email]
+                        ws.send(json.dumps({'success' : False, 'message' : 'Session expired'}))
+                    except WebSocketError:
+                        print ("Sign in web socket error")
+                        sockets.pop(email, None)
+
     result = database_helper.add_signeduser(email, password, token)
     if result:
-        # returnera token och succes = true
         jsonobj = json.dumps({"message" : "signed in", "success" : True, "token" : token})
+        #connectwithsocket();
         return jsonobj
     else:
         jsonobj = json.dumps({"message" : "wrong password or email", "success" : False, "token" : 0})

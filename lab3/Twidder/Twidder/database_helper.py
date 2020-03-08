@@ -134,6 +134,12 @@ def getUserMessagesByEmail(email):
     return query_db_all('select datePosted, writer, message from messages where browsedemail = ?', (email,))
 def getUserMessagesByToken(token):
     return query_db_all('select * from messages where browsedemail = ?', (token,))
+def getSignedinUsertokenByEmail(email):
+    data = query_db_one('select token, email from signedInUsers where email = ?', (email,))
+    if data:
+        return data[0]
+    else:
+        return 0
 def getUserEmailByToken(token):
     email = query_db_one('select email from signedInUsers where token = ?', (token,))
     if email is not None:
@@ -153,6 +159,8 @@ def insertMessage(writerEmail, email, message):
 
 def deleteSignedInUser(token):
     return query_db('delete from signedInUsers where token = ?', (token,))
+def deleteSignedInUserbyEmail(email):
+    return query_db('delete from signedInUsers where email = ?', (email,))
 
 def updateUserPassword(email, password):
     return query_db('update users set password = ? where email = ?', (password, email))
