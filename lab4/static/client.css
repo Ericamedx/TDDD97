@@ -1,0 +1,97 @@
+.all {
+  background-color: #00BFFF;
+  height: 100%;
+}
+
+.around {
+  width: 600;
+  height: 400;
+  margin-top: 100;
+  margin-left: auto;
+  margin-right: auto;
+}
+.forgotpassworddiv {
+
+}
+.logo {
+  width: 340;
+  height: 400;
+  float: left;
+}
+
+.signup {
+  margin-left: 10;
+  margin-top: 10;
+  width: 250;
+  height: 290;
+  float: left;
+  background-color: white;
+}
+
+.login {
+  margin-left: 10;
+  width: 250;
+  height: 100;
+  float: left;
+  background-color: white;
+  position: relative;
+}
+
+.loguname {
+  margin-top: 5;
+  margin-bottom: 5;
+}
+
+.logbutton {
+
+  position: absolute; bottom:0; right:0;
+}
+.forgotbutton {
+  position: absolute; bottom:0; left:0;
+}
+.forgotemailinputdiv {
+  margin-top: 20;
+}
+
+.signbutton {
+  float: right;
+  margin-top: 10;
+}
+
+.gender {
+  margin-top: 5;
+  margin-bottom: 5;
+}
+#personalinfo {
+  background-color: white;
+
+}
+.tabbuttons {
+color:white;
+background-color: gray;
+}
+.activetab {
+  background-color:red;
+}
+.buttonbar {
+  background-color: black;
+}
+h1 {
+  font-size: 24;
+  margin-left: 50;
+}
+
+.formlabel {
+  margin-top: 5;
+  margin-bottom: 5;
+}
+
+select {
+  width: 150;
+  float: right;
+}
+
+input {
+  width: 150;
+  float : right;
+}

@@ -10,11 +10,12 @@ from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketError
 from flask import render_template
+import yagmail
 #import database_helper
 import database_helper
 #from Twidder import app
 
-app = Flask('Twidder')
+app = Flask(__name__)
 X = 5
 token = ""
 activesockets = dict()
@@ -50,9 +51,43 @@ def gettoken():
         token += letters[randint(0,len(letters) - 1)]
 
     return token
-@app.route('/forgotpassword')
+def createnewpass():
+    letters = "abcdefghiklmnopqrstuvwwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+    password = ""
+    for i in range(0, 10):
+        password += letters[randint(0,len(letters) - 1)]
+
+    return password
+
+@app.route('/forgotpassword', methods = ["POST"])
 def forgotpassword():
-    return app.send_static_file('forgotpassword.html')
+    email = request.form['email']
+    result = database_helper.checkuserexistancebyemail(email)
+    if result is not None:
+        sendermail = "twidderweb@gmail.com"
+        receiveremail = email
+        subject = "Twidder password reset"
+        sender_password = "Twidder123"
+
+        #twidderweb@gmail.com
+        #pass: Twidder123
+        yag = yagmail.SMTP(user=sendermail, password=sender_password)
+
+        newpass = createnewpass()
+        database_helper.updateUserPassword(email, newpass)
+        contents = [
+         "Password reset for twidder acount : " + receiveremail + " was made.",
+         "Your new password is: " + newpass,
+         "Please log in and update your password in the Account tab",
+         "Best regards, ",
+         "The Twidder Team"
+        ]
+        yag.send(email, subject, contents)
+        jsonobj = json.dumps({'success' : True, 'message' : 'email har skickats', 'res' : result})
+    else:
+        jsonobj = json.dumps({'success' : False, 'message' : 'No such email'})
+
+    return jsonobj
 @app.route('/api')
 def api():
     print('api')
@@ -76,9 +111,9 @@ def api():
 
         try:
             if user in activesockets:
-                print(user + 'has a socket')
 
-            activesockets[user] = ws
+
+                activesockets[user] = ws
 
             while True:
                     object = ws.receive()
@@ -279,5 +314,6 @@ def post_message():
     return jsonobj
 
 if __name__ == "__main__":
+    app.debug = True
     http_server = WSGIServer(('127.0.0.1',5000), app, handler_class=WebSocketHandler)
     http_server.serve_forever()

@@ -146,7 +146,12 @@ def getUserEmailByToken(token):
         return email[0]
     else:
         return None
-
+def checkuserexistancebyemail(email):
+    result = query_db_one('select email from users where email = ?', (email, ))
+    if result is not None:
+        return result[0]
+    else:
+        return None
 def getUserPasswordByEmail(email):
     password = query_db_one('select password from users where email = ?', (email,))
     if password is not None:

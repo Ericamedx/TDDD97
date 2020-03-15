@@ -1,0 +1,75 @@
+.all {
+  background-color: #00BFFF;
+  height: 100%;
+}
+
+.around {
+  width: 600;
+  height: 400;
+  margin-top: 100;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.logo {
+  width: 340;
+  height: 400;
+  float: left;
+}
+
+.signup {
+  margin-left: 10;
+  margin-top: 10;
+  width: 250;
+  height: 290;
+  float: left;
+  background-color: white;
+}
+
+.login {
+  margin-left: 10;
+  width: 250;
+  height: 100;
+  float: left;
+  background-color: white;
+}
+
+.loguname {
+  margin-top: 15;
+  margin-bottom: 10;
+}
+
+.logbutton {
+  float: right;
+  margin-top: 10;
+}
+
+.signbutton {
+  float: right;
+  margin-top: 10;
+}
+
+.gender {
+  margin-top: 5;
+  margin-bottom: 5;
+}
+
+h1 {
+  font-size: 24;
+  margin-left: 50;
+}
+
+.formlabel {
+  margin-top: 5;
+  margin-bottom: 5;
+}
+
+select {
+  width: 150;
+  float: right;
+}
+
+input {
+  width: 150;
+  float : right;
+}

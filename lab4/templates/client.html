@@ -5,17 +5,16 @@
       <script src="/static/client.js" type="text/javascript"></script>
       <script src="/static/serverstub.js" type="text/javascript"></script>
 
-
       <script  id = "welcomeview" type=”text/view”>
         <div class = "around">
             <div class = "logo">
-            <img src="/static/wimage.png">
+            <img src="wimage.png">
             </div>
             <div class="login">
             <form onsubmit="return checkpassword()">
               <div class="loguname">
                 <label for="uname">Username</label>
-                <input type="text" id = "loguname" placeholder = "Enter username" name="uname" required>
+                <input type="text" id = "uname" placeholder = "Enter username" name="uname" required>
               </div>
               <div class="formlabel">
                 <label for="pwd">Password</label>
@@ -29,8 +28,6 @@
               </div>
 
               </form>
-
-              <button onclick="location.href='/forgotpassword'">Forgot password?</button>
             </div>
 
             <div class="signup">
@@ -62,7 +59,7 @@
                 </div>
                 <div class ="formlabel"
                 <label for="Email">Email</label>
-                <input type="email" id = "email" placeholder = "" name="email" required>
+                <input type="email" id = "email" placeholder = "" name="Email" required>
                 </div>
 
                 <div class="formlabel">
@@ -197,7 +194,10 @@
 
 
 </div>
-        </script>
+
+
+           </body>
+         </script>
 
 
   </head>
@@ -205,6 +205,7 @@
 
   <body class ="all">
     <div id = "containerdiv">
+
     </div>
 
 

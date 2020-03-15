@@ -56,19 +56,6 @@ function connectwithsocket(){
 
     }
   }
-/*
-  //receives msg from the server WebSocket
-  ws.onmessage = function (event) {
-    window.alert("connection websocket");
-   console.log(event.data);
-   var msg = JSON.parse(event.data);
-
-   if (msg.success == false) {
-     //logOut();
-     console.log(msg.message);
-   }
- };
-*/
   ws.onmessage = function(event) {
     //window.alert("onmessage");
 
@@ -105,19 +92,32 @@ function connectwithsocket(){
     console.log("Error in Websocket");
 	};
 }
-/*
-function Forcelogoutclient(){
-  window.alert("test");
-  formobject = new FormData();
-  formobject.append('Authorization', localStorage.token)
-
-  HTTP_post('sign_out', formobject, function(){});
-  localStorage.token = 0;
-  localStorage.removeItem('token');
-  localStorage.removeItem('email');
-  displayview('welcomeview');
+function showforgotpassword(){
+  div = document.getElementById('forgotpasswordform');
+  div.style.display = "block";
+  loginform = document.getElementById('loginform');
+  loginform.style.display = "none";
+  button1 = document.getElementById('returnloginbutton');
+  button1.style.display = "block";
+  button2 = document.getElementById('forgotpasswordbutton');
+  button2.style.display = "none";
+  errormessage = document.getElementById('errormessage');
+  errormessage.innerHTML = "";
 }
-*/
+
+function showlogin(){
+  div = document.getElementById('forgotpasswordform');
+  div.style.display = "none";
+  loginform = document.getElementById('loginform');
+  loginform.style.display = "block";
+  button1 = document.getElementById('returnloginbutton');
+  button1.style.display = "none";
+  button2 = document.getElementById('forgotpasswordbutton');
+  button2.style.display = "block";
+  errormessage = document.getElementById('errormessage');
+  errormessage.innerHTML = "";
+}
+
 function HTTPget(path, fact){
     var myhttphelper = new XMLHttpRequest();
     myhttphelper.onreadystatechange = function() {
@@ -139,19 +139,36 @@ function HTTP_post(path, form, fact){
   };
   var actualpath = server + path;
   myhttphelper.open("POST", actualpath);
+  if(localStorage.token){
   myhttphelper.setRequestHeader('Authorization', localStorage.token)
+  }
   myhttphelper.send(form);
 }
 function forgotpassword(){
     var email = document.getElementById('forgotemail');
     formobject = new FormData();
-    formobject.append('email', email)
-
+    formobject.append('email', email.value)
+    errormessage = document.getElementById('errormessage');
     //create a server temporary code
     //send it to the user with email/
     //HTTP_post()
 
-    getUserPasswordByEmail
+    path = "forgotpassword";
+    HTTP_post(path, formobject, function(myhttphelper){
+
+    result = JSON.parse(myhttphelper.responseText);
+    if(result.success){
+      console.log(result.message);
+
+      errormessage.innerHTML = result.message;
+    }
+    else{
+      errormessage.innerHTML = result.message;
+    }
+  });
+
+
+    return false;
 
 }
 //todo, fix alert message to not be alert. maybe css and make the fields red

@@ -12,7 +12,7 @@
             <img src="/static/wimage.png">
             </div>
             <div class="login">
-            <form onsubmit="return checkpassword()">
+            <form id = "loginform" onsubmit="return checkpassword()" style = "display:block">
               <div class="loguname">
                 <label for="uname">Username</label>
                 <input type="text" id = "loguname" placeholder = "Enter username" name="uname" required>
@@ -22,16 +22,30 @@
                 <input type="password" id="loginpass" placeholder = "Enter Password" name="pwd" required>
 
               </div>
-              <div class ="errormessagediv" od = "errormessagediv">
-              <p1 id = "errormessage"> </p1>
+
               <div class="logbutton" id = "logbutton">
                 <button type="submit">Login</button>
               </div>
 
               </form>
 
-              <button onclick="location.href='/forgotpassword'">Forgot password?</button>
+              <form id="forgotpasswordform" onsubmit="return forgotpassword()" style ="display:none">
+              <div class = "forgotemailinputdiv">
+              <label for="Email">Email</label>
+              <input type="email" id = "forgotemail" placeholder = "" name="forgotemail" required>
+              </div>
+              <button class ="logbutton" type="submit">Send new password</button>
+
+              </form>
+              <p1 id = "errormessage"> </p1>
+
+              <button class="forgotbutton" id="forgotpasswordbutton" onclick="return showforgotpassword()" style ="display:block">Forgot password?</button>
+              <button class="forgotbutton" id="returnloginbutton" onclick="return showlogin()" style ="display:none">Back to login </button>
+
+
+
             </div>
+
 
             <div class="signup">
               <h1> Sign up here </h1>

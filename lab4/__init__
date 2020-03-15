@@ -1,0 +1,11 @@
+from flask import Flask, request
+from gevent.wsgi import WSGIServer
+from gevent import pywsgi
+from geventwebsocket.handler import WebSocketHandler
+from views import app
+import Twidder.views
+
+if __name__ == "__main__":
+    app.debug = True
+    http_server = WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
+    http_server.serve_forever()
